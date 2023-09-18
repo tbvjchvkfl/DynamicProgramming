@@ -64,7 +64,7 @@ int main()
 	memo.clear();
 	std::cout << CanAccumulate(numbers2, sum2, memo) << std::endl;*/
 
-	std::vector<int> numbers1 = { 2,3,5 };
+	/*std::vector<int> numbers1 = { 2,3,5 };
 	int sum1 = 8;
 
 	std::vector<int> numbers2 = { 8,6 };
@@ -73,4 +73,15 @@ int main()
 	std::map<int, result> memo;
 
 	std::cout << HowAccumulatem(numbers1, sum1, memo).get() << std::endl;
+	
+	memo.clear();
+	std::cout << OptimizeAccumulate(numbers1, sum1, memo).get() << std::endl;*/
+
+	std::map<std::string, bool> memo;
+	std::vector<std::string> v = { "ab", "abc", "cd", "def", "abcd" };
+	std::cout << std::boolalpha;
+	std::cout << CanGenerate(v, "abcdef", memo) << std::endl;
+
+	std::map<std::string, int> mamo;
+	std::cout << HowManyGenerate(v, "abcdef", mamo) << std::endl;
 }
