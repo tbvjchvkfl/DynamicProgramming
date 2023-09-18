@@ -115,7 +115,6 @@ result HowAccumulateb(const std::vector<int>& numbers, int sum, std::map<int, re
 // Memoization
 
 using result = std::shared_ptr<std::vector<int>>;
-
 result HowAccumulatem(const std::vector<int>& numbers, int sum, std::map<int, result>& memo)
 {
 	if (memo.count(sum) == 1)
@@ -149,3 +148,114 @@ result HowAccumulatem(const std::vector<int>& numbers, int sum, std::map<int, re
 }
 
 // 정수의 배열  numbers에서 숫자들을 조합하여 sum이라는 값을 만들어낼 수 있는 최적의 조합식을 구해볼 것.
+result OptimizeAccumulate(const std::vector<int>& numbers, int sum, std::map<int, result>& memo)
+{
+	if (memo.count(sum) == 1)
+	{
+		return memo[sum];
+	}
+
+	// base case
+	if (sum == 0)
+	{
+		return std::make_shared<std::vector<int>>();
+	}
+	if (sum < 0)
+	{
+		return nullptr;
+	}
+
+	// recursive case
+	std::shared_ptr<std::vector<int>> optimized = nullptr;
+	for (const auto e : numbers)
+	{
+		auto r = OptimizeAccumulate(numbers, sum - e, memo);
+		if (r != nullptr)
+		{
+			std::shared_ptr<std::vector<int>> v = std::make_shared<std::vector<int>>();
+			v->resize(r->size());
+			std::copy(r->begin(), r->end(), v->begin());
+			r->push_back(e);
+
+			if (optimized == nullptr || v->size() < optimized->size())
+			{
+				optimized = v;
+			}
+		}
+	}
+	memo[sum] = optimized;
+}
+
+// 천원을 내면 가격인 720을 차감하고 잔돈으로 거슬러 줄 최소 동전(가장 작은 단위의 동전)의 갯수는 몇개일까요?
+
+// 주어진 문자열의 배열 stringList의 원소들을 조합하여 target문자열을 만들 수 있는지 구해보자.
+bool CanGenerate(std::vector<std::string>& strings, std::string target, std::map<std::string, bool>& memo)
+{
+	if (memo.count(target) == 1)
+	{
+		return memo[target];
+	}
+	// base case
+	if (target.empty())
+	{
+		return true;
+	}
+	// recursive case
+	for (auto e : strings)
+	{
+		if (target.find(e) == 0)
+		{
+			if (CanGenerate(strings, target.substr(e.size()), memo))
+			{
+				memo[target] = true;
+				return memo[target];
+			}
+		}
+	}
+	memo[target] = false;
+	return memo[target];
+}
+
+//Combination ver - brute force
+int HowManyGenerate(const std::vector<std::string>& strings, std::string target)
+{
+	if (target == "")
+	{
+		return 1;
+	}
+	int count{};
+	for (auto e : strings)
+	{
+		if (target.find(e) == 0)
+		{
+			std::string subs = target.substr(e.size());
+			count += HowManyGenerate(strings, subs);
+		}
+	}
+	return count;
+}
+
+//Combination ver - memoization
+int HowManyGenerate(const std::vector<std::string>& strings, std::string target, std::map<std::string, int>& memo)
+{
+	if (memo.count(target) == 1)
+	{
+		return memo[target];
+	}
+
+	if (target == "")
+	{
+		return 1;
+	}
+	int count{};
+	for (auto e : strings)
+	{
+		if (target.find(e) == 0)
+		{
+			std::string subs = target.substr(e.size());
+			count += HowManyGenerate(strings, subs, memo);
+		}
+	}
+	memo[target] = count;
+	return memo[target];
+}
