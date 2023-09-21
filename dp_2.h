@@ -296,7 +296,7 @@ std::ostream& operator<< (std::ostream& os, string2d& v)
 		{
 			std::cout << e2 << ", ";
 		}
-		std::cout << "}" << std::endl;
+		std::cout << "}";
 	}
 	std::cout << "}";
 	return os;

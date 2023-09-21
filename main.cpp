@@ -77,11 +77,17 @@ int main()
 	memo.clear();
 	std::cout << OptimizeAccumulate(numbers1, sum1, memo).get() << std::endl;*/
 
-	std::map<std::string, bool> memo;
+	/*std::map<std::string, bool> memo;
 	std::vector<std::string> v = { "ab", "abc", "cd", "def", "abcd" };
 	std::cout << std::boolalpha;
 	std::cout << CanGenerate(v, "abcdef", memo) << std::endl;
 
 	std::map<std::string, int> mamo;
-	std::cout << HowManyGenerate(v, "abcdef", mamo) << std::endl;
+	std::cout << HowManyGenerate(v, "abcdef", mamo) << std::endl;*/
+
+	std::vector<std::string> strings = { "ab", "abc", "cd", "def", "abcd" };
+	auto target = "abcdef";
+
+	auto r = AllCombination(strings, target);
+	std::cout << r << std::endl;
 }
