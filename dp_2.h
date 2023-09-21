@@ -5,6 +5,7 @@
 #include <vector>
 #include <map>
 #include <memory>
+#include <list>
 
 // 정수의 배열  numbers에서 숫자들을 조합하여 sum이라는 값을 만들어낼 수 있는지 확인하는 함수를 만들어볼 것.
 
@@ -258,4 +259,45 @@ int HowManyGenerate(const std::vector<std::string>& strings, std::string target,
 	}
 	memo[target] = count;
 	return memo[target];
+}
+
+using string2d = std::list<std::list<std::string>>;
+string2d AllCombination(const std::vector<std::string>& strings, std::string target)
+{
+	if (target == "")
+	{
+		return string2d{ {} };
+	}
+
+	string2d v;
+
+	for (auto word : strings)
+	{
+		if (target.find(word) == 0)
+		{
+			auto r = AllCombination(strings, target.substr(word.size()));
+			for (auto s : r)
+			{
+				s.push_front(word);
+				v.push_front(s);
+			}
+		}
+	}
+	return v;
+}
+
+std::ostream& operator<< (std::ostream& os, string2d& v)
+{
+	std::cout << "{";
+	for (auto e1 : v)
+	{
+		std::cout << "    {";
+		for (auto e2 : e1)
+		{
+			std::cout << e2 << ", ";
+		}
+		std::cout << "}" << std::endl;
+	}
+	std::cout << "}";
+	return os;
 }
