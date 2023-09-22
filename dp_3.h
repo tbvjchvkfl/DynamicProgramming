@@ -65,4 +65,5 @@ std::list<std::list<std::string>> AllGenerate(const std::vector<std::string>& st
 			}
 		}
 	}
+	return table[]
 }
